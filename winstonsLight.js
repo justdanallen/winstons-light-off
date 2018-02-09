@@ -61,6 +61,10 @@ function discover() {
   })
 }
 
+function handler(value) {
+  log('Binary State changed to: ' + value);
+}
+
 function errorHandler( error ) {
   log(error)
 }
