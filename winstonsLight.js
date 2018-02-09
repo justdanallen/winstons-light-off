@@ -3,7 +3,7 @@ const Wemo = require('wemo-client')
 const wemo = new Wemo()
 
 
-let client;
+let client
 discover().catch(errorHandler)
 
 
@@ -44,9 +44,15 @@ function discover() {
         reject('device not found')
       }
       else {
+        log('Setting client: ' + msg.deviceInfo.host)
         client = wemo.client(msg.deviceInfo)
+
         client.on('binaryState', value => {
-          console.log('[Winstons Light] Binary State changed to: %s', value);
+          log('Binary State changed to: ' + value);
+        })
+
+        client.on('error', err => {
+          log(err)
         })
 
         resolve()
@@ -56,5 +62,14 @@ function discover() {
 }
 
 function errorHandler( error ) {
-  console.error( error )
+  log(error)
+}
+
+function log(msg) {
+  if(typeof msg === 'object'){
+    console.log('[WinstonsLight] ' + JSON.stringify(msg))    
+  }
+  else {
+    console.log('[WinstonsLight] ' + msg)
+  }
 }
