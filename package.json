@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.6.0",
     "firebase-admin": "^5.8.2",
+    "ping": "^0.2.2",
     "wemo-client": "^0.15.0"
   }
 }

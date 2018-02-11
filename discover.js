@@ -4,7 +4,7 @@
  * 
  * process exits once winstons light is found
  */
-
+const config = require('./config')
 const Wemo = require('wemo-client')
 const wemo = new Wemo()
 
@@ -36,9 +36,10 @@ wemo.discover(function(value, deviceInfo) {
 
 // stop discovery after 10s
 setTimeout( () => {
-  log('Stopping discover')
+  log('Stopping discovery')
+  process.send({error: 'timeout'})
   process.exit()
-}, 10000)
+}, config.DISCOVER_TIME_PERIOD)
 
 function log(msg) {
   console.log('[Discovery] ' + msg)
