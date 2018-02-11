@@ -1,19 +1,20 @@
 const firebase = require('firebase-admin')
 const { fork } = require('child_process')
 const winston = require('./winstonsLight')
+const config = require('./secret/config')
 
 // set up Firebase
-serviceAccount = require('./key/Sun Dusk Lane-fd8663d61538.json')
+serviceAccount = require(config.firebase.keyPath)
 
 // Initialize the app with a service account, granting admin privileges
 firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
-  databaseURL: 'https://sun-dusk-lane.firebaseio.com/'
+  databaseURL: config.firebase.url
 });
 
 // As an admin, the app has access to read and write all data, regardless of Security Rules
 const db = firebase.database()
-const winstonsLightStateRef = db.ref('/winstons-light/state')
+const winstonsLightStateRef = db.ref(config.firebase.deviceRef)
 
 
 // This is where we handle the commands from firebase

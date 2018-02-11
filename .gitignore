@@ -1,4 +1,7 @@
-/key
+/secret
 /node_modules
 ssdp.js
 
+/functions/node_modules
+.firebaserc
+firebase.json
