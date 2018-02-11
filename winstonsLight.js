@@ -12,11 +12,6 @@ exports.on = () => {
       client.setBinaryState(1)
     }
     else {
-      // discover()
-      //   .then( () => {
-      //     client.setBinaryState(1)
-      //   })
-      //   .catch(errorHandler)
       log('no device found yet')
     }
   }
@@ -26,17 +21,17 @@ exports.off = () => {
     client.setBinaryState(0)
   }
   else {
-    // discover()
-    //   .then( () => {
-    //     client.setBinaryState(0)
-    //   })
-    //   .catch(errorHandler)
       log('no device found yet')
   }
 }
 
-// Discover the wemo and set the client
-// used in discoveryLoop async.retry
+
+
+/**
+ * Discover the wemo and set the client
+ * used in discoveryLoop async.retry
+ * @param {Callback} next next(err, result) 
+ */
 function singleDiscovery(next) {
 
   const discoverProcess = fork('discover.js')
@@ -54,7 +49,10 @@ function singleDiscovery(next) {
 
 }
 
-
+/**
+ * A ghetto logger
+ * @param {String or Object} msg 
+ */
 function log(msg) {
   //console.log('[WinstonsLight] ', arguments)
   if(typeof msg === 'object'){
@@ -66,7 +64,11 @@ function log(msg) {
 }
 
 
-// updates the client with the module
+
+/**
+ * Update's the global client variable
+ * @param {Object} deviceInfo Info from wemo discovery
+ */
 function updateClient(deviceInfo){
   if(deviceInfo){
     log('Setting wemo client: ' + deviceInfo.host)
@@ -86,8 +88,6 @@ function updateClient(deviceInfo){
     client = null
   }
 
-  
-  //console.log(client)
 }
 
 
