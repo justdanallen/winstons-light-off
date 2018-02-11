@@ -13,10 +13,14 @@ I'm using Firebase to act like a socket to control the Wemo over the local netwo
 `/usr/bin/sudo -u pi /usr/local/bin/forever start /home/pi/SunDusk/index.js`
 
 # TODO:
-1. Test how discovery works when wemo isn't found (done - it just tries to discover one more time and fails)
-2. Add logging to firebase for remote management
+1. Test how discovery works when wemo isn't found (done)
+2. Add logging to firebase for remote management, look at winston logger
 3. Add firebase function for controlling (done)
-4. Look at adding npm package 'ping'
+4. Look at adding npm package 'ping' (done)
 5. Add status monitoring to FB for PI and Wemo
 6. Add webhook for installing new SW
+7. Load to pie
+8. Upload repo to GitHub
+
+Add queue to make sure FB commands get implemented
 
