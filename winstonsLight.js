@@ -1,11 +1,16 @@
-const { fork } = require('child_process');
+const firebase = require('firebase-admin')
+const { fork } = require('child_process')
 const ping = require('ping')
 const async = require('async')
 const config = require('./config')
 const Wemo = require('wemo-client')
 const wemo = new Wemo()
 
+
 let client = null
+const connectedRef = firebase.database().ref('/winstons-light/connected')
+const deviceInfoRef = firebase.database().ref('/winstons-light/deviceInfo')
+
 
 exports.on = () => {
     if(client) {
@@ -74,6 +79,8 @@ function updateClient(deviceInfo){
     log('Setting wemo client: ' + deviceInfo.host)
     
     client = wemo.client(deviceInfo)
+    connectedRef.set(isConnectedMessage)
+    deviceInfoRef.set(deviceInfo)
   
     client.on('binaryState', value => {
       log('Binary State changed to: ' + value);
@@ -85,11 +92,24 @@ function updateClient(deviceInfo){
   }
   else{
     log('Setting wemo client: null')
+    connectedRef.set(isNotConnectedMessage)
+    deviceInfoRef = null
     client = null
   }
 
 }
 
+const isConnectedMessage = {
+  state: 'connected',
+  last_change: firebase.database.ServerValue.TIMESTAMP, 
+  formattedTime: new Date().toString()
+}
+
+const isNotConnectedMessage = {
+  state: 'disconnected',
+  last_change: firebase.database.ServerValue.TIMESTAMP,
+  formattedTime: new Date().toString()
+}
 
 /**
  * A method that doesn't quit until the wemo is found! Does a singleDiscovery numTries
@@ -187,6 +207,9 @@ function pinging(){
             })
 
         }, config.PING_TIME_INTERVAL)
-      } 
+      } else {
+        // notify alive
+        connectedRef.set(isConnectedMessage)
+      }
     })
 }

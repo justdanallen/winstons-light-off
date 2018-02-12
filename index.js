@@ -1,7 +1,7 @@
 const firebase = require('firebase-admin')
 const { fork } = require('child_process')
-const winston = require('./winstonsLight')
 const secret = require('./secret')
+
 
 // set up Firebase
 serviceAccount = require(secret.firebase.keyPath)
@@ -11,6 +11,10 @@ firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
   databaseURL: secret.firebase.url
 });
+
+// start after FB is set up
+const presence = require('./presence')
+const winston = require('./winstonsLight')
 
 // As an admin, the app has access to read and write all data, regardless of Security Rules
 const db = firebase.database()
