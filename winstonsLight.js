@@ -79,7 +79,7 @@ function updateClient(deviceInfo){
     log('Setting wemo client: ' + deviceInfo.host)
     
     client = wemo.client(deviceInfo)
-    connectedRef.set(isConnectedMessage)
+    connectedRef.set(isConnectedMessage())
     deviceInfoRef.set(deviceInfo)
   
     client.on('binaryState', value => {
@@ -92,23 +92,27 @@ function updateClient(deviceInfo){
   }
   else{
     log('Setting wemo client: null')
-    connectedRef.set(isNotConnectedMessage)
+    connectedRef.set(isNotConnectedMessage())
     deviceInfoRef = null
     client = null
   }
 
 }
 
-const isConnectedMessage = {
-  state: 'connected',
-  last_change: firebase.database.ServerValue.TIMESTAMP, 
-  formattedTime: new Date().toString()
+const isConnectedMessage = () => {
+  return { 
+    state: 'connected',
+    last_change: firebase.database.ServerValue.TIMESTAMP, 
+    formattedTime: new Date().toString()
+  }
 }
 
-const isNotConnectedMessage = {
-  state: 'disconnected',
-  last_change: firebase.database.ServerValue.TIMESTAMP,
-  formattedTime: new Date().toString()
+const isNotConnectedMessage = () => {
+  return { 
+    state: 'disconnected',
+    last_change: firebase.database.ServerValue.TIMESTAMP, 
+    formattedTime: new Date().toString()
+  }
 }
 
 /**
@@ -209,7 +213,7 @@ function pinging(){
         }, config.PING_TIME_INTERVAL)
       } else {
         // notify alive
-        connectedRef.set(isConnectedMessage)
+        connectedRef.set(isConnectedMessage())
       }
     })
 }
