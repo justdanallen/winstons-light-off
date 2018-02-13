@@ -39,7 +39,7 @@ exports.off = () => {
  */
 function singleDiscovery(next) {
 
-  const discoverProcess = fork('discover.js')
+  const discoverProcess = fork(__dirname + '/discover.js')
   
   discoverProcess.on('message', (msg) => {
     if(msg.error) {
