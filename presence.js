@@ -1,4 +1,5 @@
 const firebase = require('firebase-admin')
+const ip = require('ip')
 
 // This is where we will store data about being online/offline.
 const deviceStatusRef = firebase.database().ref(`/rpi-fatdan/connected`);
@@ -18,7 +19,8 @@ const isOnlineForDatabase = () => {
   return {
     state: "online",
     last_changed: firebase.database.ServerValue.TIMESTAMP,
-    formattedTime: new Date().toString()
+    formattedTime: new Date().toString(),
+    ip: ip.address()
   }
 };
 
