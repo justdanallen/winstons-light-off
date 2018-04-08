@@ -10,8 +10,8 @@ const wemo = new Wemo()
 
 let client = null
 const db = firebase.database()
-const connectedRef = db.ref('/winstons-light/connected')
-const deviceInfoRef = db.ref('/winstons-light/deviceInfo')
+const connectedRef = db.ref(secret.firebase.connectedRef)
+const deviceInfoRef = db.ref(secret.firebase.deviceInfoRef)
 const errorRef = db.ref(secret.firebase.errorRef)
 
 let binaryState = null
@@ -60,7 +60,7 @@ function setBinaryStateCallback(err, state) {
   }
 
   binaryState = state.BinaryState
-  if(setBinaryStateTries > SET_STATE_NUM_RETRIES){
+  if(setBinaryStateTries > config.SET_STATE_NUM_RETRIES){
     getBinaryState()
   }
 
@@ -68,7 +68,7 @@ function setBinaryStateCallback(err, state) {
   if(state.BinaryState !== command) {
     setTimeout( ()=>{
       setBinaryState(command)
-    }, SET_STATE_TIME_BETWEEN) 
+    }, config.SET_STATE_TIME_BETWEEN) 
 
   } else {
     setBinaryStateTries = 0
