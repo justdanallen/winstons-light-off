@@ -10,7 +10,7 @@ I'm using Firebase to act like a socket to control the Wemo over the local netwo
 3. Install forever globally
 `npm install forever -g`
 4. Add this line to the `/etc/rc.local` folder:
-`/usr/bin/sudo -u pi /usr/bin/forever start /home/pi/SunDuskLane/index.js`
+`/usr/bin/sudo -u pi /usr/bin/forever start /home/pi/SunDuskLane/winstons-light-off/index.js`
 
 
 # TODO:
@@ -23,5 +23,5 @@ I'm using Firebase to act like a socket to control the Wemo over the local netwo
 7. Load to pie (done)
 8. Upload repo to GitHub
 
-Add queue to make sure FB commands get implemented?
+Add queue to make sure FB commands get implemented? (done)
 
