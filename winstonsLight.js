@@ -72,6 +72,7 @@ function setBinaryStateCallback(err, state) {
 
   } else {
     setBinaryStateTries = 0
+    log('set binary state success')
   }
 }
 
@@ -252,6 +253,9 @@ function getBinaryState(){
         binaryState = state
         log('Got current binary state: ' + binaryState)
         deviceInfoRef.update({binaryState: state})
+        if(command !== state){
+          setBinaryState(command)
+        }
       }
     })
   }
